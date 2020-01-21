@@ -109,19 +109,17 @@ const Home = () => {
       .catch(err => console.log(err));
   }
 
-  console.log(program);
-
   if (program.length && globalInfo.length && top.length) {
     return (
       <Page id="homepage" description={globalInfo[0].description} title={globalInfo[0].title}>
 
         <section className="section_top">
           <div className="uk-container-expand">
-            <div className="uk-grid uk-grid-collapse uk-child-width-1-2">
+            <div className="uk-grid uk-grid-collapse uk-child-width-1-1 uk-child-width-1-2@m">
               <div><img src={urlFor(top[0].image).ignoreImageParams()} title={top[0].image.attribution} alt={top[0].image.attribution} /></div>
               <div>
                 <div className="content_wrap">
-                  <h2 className="accent_head">{top[0].title}</h2>
+                  <h1 className="accent_head">{top[0].title}</h1>
                   <BlockContent blocks={top[0].content} serializers={serializers} />
                 </div>
               </div>
@@ -132,7 +130,7 @@ const Home = () => {
 
         <section className="program">
           <div className="uk-container">
-            <h2 className="accent_head">Program v balzamu</h2>
+            <h1 className="accent_head">Program v balzamu</h1>
             <ul uk-accordion="collapsible: false">
               {program.map((item, index) =>
                 <li key={index} className="accordion-item">
@@ -141,7 +139,7 @@ const Home = () => {
                       <span>{formDate(item.date)[1]}</span>
                       <span>{formDate(item.date)[0]}</span>
                     </div>
-                    <div className="program-title">{item.title}</div>
+                    <h1 className="program-title">{item.title}</h1>
                   </a>
                   <div className="uk-accordion-content">
                     <div></div>
