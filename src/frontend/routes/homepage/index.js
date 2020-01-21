@@ -9,6 +9,11 @@ import imageUrlBuilder from "@sanity/image-url";
 import image from '../../assets/img/image.jpg'
 import image2 from '../../assets/img/image2.jpg'
 
+import axios from 'axios'
+
+
+const access_token = 'IGQVJXMm1ha2toVkNtYkxETkFKcF9NaU5PbkRJWmlCdHJMTVUtSDIxOFBoNXp3NlczZAVMySkt4WGdNaFJYMjl3bU1xekU1R2NrQmc0Qml4REc5c3BZANF9fYlc0MFBQM3VSd25WVDZApbDZASTWhwV1ZAOYXB1dkZAUZAllFNHFR'
+
 const imageBuilder = imageUrlBuilder(sanityClient);
 const urlFor = source => imageBuilder.image(source)
 
@@ -77,6 +82,8 @@ const Home = () => {
   const [globalInfo, setGlobalInfo] = useState([])
 
   const [offset, setOffset] = useState(7)
+  const [idsInstagram, setIdsInstagram] = useState([])
+  const [images, setImages] = useState([])
 
   useEffect(() => {
     sanityClient
@@ -91,7 +98,30 @@ const Home = () => {
       .fetch(queryGlobal)
       .then(data => setGlobalInfo(data))
       .catch(err => console.log(err));
+
+    axios.get('https://graph.instagram.com/17841407200262017?fields=media&access_token=' + access_token)
+      .then(res => {
+        console.log(res);
+        setIdsInstagram([...res.data.media.data])
+      })
   }, [])
+
+  useEffect(() => {
+    getPhoto()
+  }, [idsInstagram])
+
+  const getPhoto = async () => {
+    if(idsInstagram.length){
+      var newImages = []
+      for(var i = 0; i < idsInstagram.length; i++){
+        const res = await axios.get('https://graph.instagram.com/'+idsInstagram[i].id+'?fields=media_url,permalink&access_token=' + access_token)
+        newImages.push({imageUrl: res.data.media_url, link: res.data.permalink})
+      }
+
+      console.log(newImages);
+      setImages(newImages)
+    }
+  }
 
 
   const getMore = () => {
@@ -108,6 +138,8 @@ const Home = () => {
       .then(data => setProgram([...program, ...data]))
       .catch(err => console.log(err));
   }
+
+  console.log(images);
 
   if (program.length && globalInfo.length && top.length) {
     return (
@@ -158,48 +190,18 @@ const Home = () => {
 
         <Actuality />
 
-        <section className="instagram">
+        {images.length && <section className="instagram">
           <div className="uk-container">
             <div className="uk-grid uk-grid-small uk-child-width-1-2 uk-child-width-1-3@s" uk-grid="">
-              <div>
-                <a href="/" className="instagram-wrap-item">
+              {images.slice(0, 6).map((item, index) => <div key={index}>
+                <a href={item.link} target="_blank" className="instagram-wrap-item">
                   <span className="instagram-icon"></span>
-                  <img src={image} alt="instagram" />
+                  <img src={item.imageUrl} alt="instagram" />
                 </a>
-              </div>
-              <div>
-                <a href="/" className="instagram-wrap-item">
-                  <span className="instagram-icon"></span>
-                  <img src={image2} alt="instagram" />
-                </a>
-              </div>
-              <div>
-                <a href="/" className="instagram-wrap-item">
-                  <span className="instagram-icon"></span>
-                  <img src={image} alt="instagram" />
-                </a>
-              </div>
-              <div>
-                <a href="/" className="instagram-wrap-item">
-                  <span className="instagram-icon"></span>
-                  <img src={image2} alt="instagram" />
-                </a>
-              </div>
-              <div>
-                <a href="/" className="instagram-wrap-item">
-                  <span className="instagram-icon"></span>
-                  <img src={image} alt="instagram" />
-                </a>
-              </div>
-              <div>
-                <a href="/" className="instagram-wrap-item">
-                  <span className="instagram-icon"></span>
-                  <img src={image2} alt="instagram" />
-                </a>
-              </div>
+              </div>)}
             </div>
           </div>
-        </section>
+        </section>}
       </Page>
     );
   }
