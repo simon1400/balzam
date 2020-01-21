@@ -6,6 +6,9 @@ import BlockContent from "@sanity/block-content-to-react";
 import sanityClient from "../../../lib/sanity.js";
 import imageUrlBuilder from "@sanity/image-url";
 
+import image from '../../assets/img/image.jpg'
+import image2 from '../../assets/img/image2.jpg'
+
 const imageBuilder = imageUrlBuilder(sanityClient);
 const urlFor = source => imageBuilder.image(source)
 
@@ -156,6 +159,49 @@ const Home = () => {
         </section>
 
         <Actuality />
+
+        <section className="instagram">
+          <div className="uk-container">
+            <div className="uk-grid uk-grid-small uk-child-width-1-2 uk-child-width-1-3@s" uk-grid="">
+              <div>
+                <a href="/" className="instagram-wrap-item">
+                  <span className="instagram-icon"></span>
+                  <img src={image} alt="instagram" />
+                </a>
+              </div>
+              <div>
+                <a href="/" className="instagram-wrap-item">
+                  <span className="instagram-icon"></span>
+                  <img src={image2} alt="instagram" />
+                </a>
+              </div>
+              <div>
+                <a href="/" className="instagram-wrap-item">
+                  <span className="instagram-icon"></span>
+                  <img src={image} alt="instagram" />
+                </a>
+              </div>
+              <div>
+                <a href="/" className="instagram-wrap-item">
+                  <span className="instagram-icon"></span>
+                  <img src={image2} alt="instagram" />
+                </a>
+              </div>
+              <div>
+                <a href="/" className="instagram-wrap-item">
+                  <span className="instagram-icon"></span>
+                  <img src={image} alt="instagram" />
+                </a>
+              </div>
+              <div>
+                <a href="/" className="instagram-wrap-item">
+                  <span className="instagram-icon"></span>
+                  <img src={image2} alt="instagram" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
       </Page>
     );
   }
