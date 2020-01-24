@@ -41,14 +41,14 @@ const Actuality = () => {
 
   if (actuality.length) {
     return (
-      <section id="link_to_4" className="section_4">
+      <section id="link_to_3" className="section_4">
       <div className="uk-container">
         {actuality.map((item, index) =>
             <div className="uk-grid uk-grid-collapse uk-child-width-1-1 uk-child-width-1-2@s" key={index} >
               <div>
                 {index % 2
                   ? <div className="content_wrap">
-                      <h2 className="accent_head">{item.title}</h2>
+                      <h3 className="accent_head">{item.title}</h3>
                       <BlockContent blocks={item.body} serializers={serializers} />
                     </div>
                  : <div className="content_img">
@@ -59,7 +59,7 @@ const Actuality = () => {
                 {index % 2
                   ? <div className="content_img"><img src={urlFor(item.mainImage).ignoreImageParams()} title={item.mainImage.attribution} alt={item.mainImage.attribution} /></div>
                   : <div className="content_wrap">
-                      <h2 className="accent_head">{item.title}</h2>
+                      <h3 className="accent_head">{item.title}</h3>
                       <BlockContent blocks={item.body} serializers={serializers} />
                     </div>}
               </div>
