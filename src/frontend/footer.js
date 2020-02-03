@@ -15,8 +15,6 @@ const query = `*[_type == "global"] {
 const BlockRenderer = props => {
   const style = props.node.style || "normal";
 
-  console.log(props);
-
   if (/^h\d/.test(style)) {
     const level = style.replace(/[^\d]/g, "");
     return <h2 className={`my-heading level-${level}`}>{props.children}</h2>;

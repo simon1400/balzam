@@ -18,9 +18,11 @@ export default class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      menu: {}
+      menu: {},
+      toggle: false
     };
     this.getData = this.getData.bind(this);
+    this.toggle = this.toggle.bind(this);
   }
 
   componentDidMount() {
@@ -36,60 +38,39 @@ export default class Header extends React.Component {
     });
   }
 
+  toggle() {
+    this.setState({
+      toggle: !this.state.toggle
+    })
+  }
+
   render() {
     var menu = this.state.menu;
     return (
-      <header
-        id="header"
-        className="header_homepage uk-height-viewport uk-position-relative"
-      >
+      <header id="header" className="header_homepage uk-height-viewport uk-position-relative">
         <nav className="top_nav uk-visible@m">
           <ul>
-            {menu[0]
-              ? menu.map((link, index) => (
-                  <li key={index}>
-                    <Link
-                      to={link.menuUrl}
-                      scroll={el =>
-                        el.scrollIntoView({
-                          behavior: "smooth",
-                          block: "start"
-                        })
-                      }
-                    >
-                      {link.title}
-                    </Link>
-                  </li>
-                ))
+            {menu[0] ? menu.map((link, index) =>
+                <li key={index}>
+                  <Link to={link.menuUrl} scroll={el => el.scrollIntoView({behavior: "smooth",block: "start"})}>{link.title}</Link>
+                </li>)
               : ""}
           </ul>
         </nav>
 
         <div className="responsive_head uk-hidden@m">
-          <button className="hamburger hamburger--collapse" type="button">
+          <button className={`hamburger hamburger--collapse${this.state.toggle ? ' is-active' : ''}`} type="button" onClick={() => this.toggle()}>
             <span className="hamburger-box">
               <span className="hamburger-inner" />
             </span>
           </button>
 
-          <nav>
+          <nav className={this.state.toggle ? 'active_nav' : ''}>
             <ul>
-              {menu[0]
-                ? menu.map((link, index) => (
-                    <li key={index}>
-                      <Link
-                        to={link.menuUrl}
-                        scroll={el =>
-                          el.scrollIntoView({
-                            behavior: "smooth",
-                            block: "start"
-                          })
-                        }
-                      >
-                        {link.title}
-                      </Link>
-                    </li>
-                  ))
+              {menu[0] ? menu.map((link, index) =>
+                  <li key={index}>
+                    <Link to={link.menuUrl} scroll={el => el.scrollIntoView({behavior: "smooth",block: "start"})}>{link.title}</Link>
+                  </li>)
                 : ""}
             </ul>
           </nav>

@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import Page from "../../components/page";
 import Actuality from "../../components/actuality";
-
+import AnimateHeight from 'react-animate-height';
 import BlockContent from "@sanity/block-content-to-react";
 import sanityClient from "../../../lib/sanity.js";
 import imageUrlBuilder from "@sanity/image-url";
@@ -39,7 +39,21 @@ const uvod = `*[_type == "top"] {
 }[0...1]
 `;
 
-const query = `*[_type == "programs"] {
+const date = new Date()
+if(date.getDate() < 10){
+  var nowDay = '0' + date.getDate()
+}else{
+  var nowDay = date.getDate()
+}
+
+if(date.getMonth() < 10){
+  var nowMonth = '0' + (date.getMonth() + 1)
+}else{
+  var nowMonth = date.getMonth() + 1
+}
+
+
+const query = `*[_type == "programs" && date >= "${date.getFullYear()}-${nowMonth}-${nowDay}"] {
   date,
   title,
   content,
@@ -56,6 +70,7 @@ const queryGlobal = `*[_type == "global"] {
   titleProgram
 }[0...1]
 `;
+
 
 const serializers = {
   marks: {
@@ -80,6 +95,7 @@ const Home = () => {
   const [offset, setOffset] = useState(7)
   const [idsInstagram, setIdsInstagram] = useState([])
   const [images, setImages] = useState([])
+  const [height, setHeight] = useState(0)
 
   useEffect(() => {
     sanityClient
@@ -97,14 +113,28 @@ const Home = () => {
 
     axios.get('https://graph.instagram.com/17841407200262017?fields=media&access_token=' + access_token)
       .then(res => {
-        console.log(res);
         setIdsInstagram([...res.data.media.data])
       })
   }, [])
 
   useEffect(() => {
+    // console.log(program.length);
+    calculateHeight()
+  })
+
+  useEffect(() => {
     getPhoto()
   }, [idsInstagram])
+
+  const calculateHeight = () => {
+    if(document.getElementsByClassName('accordion-item').length){
+      var newHeight = 0;
+      [...document.getElementsByClassName('accordion-item')].map((item) => {
+        newHeight += +item.clientHeight
+      })
+      setHeight(newHeight)
+    }
+  }
 
   const getPhoto = async () => {
     if(idsInstagram.length){
@@ -113,8 +143,6 @@ const Home = () => {
         const res = await axios.get('https://graph.instagram.com/'+idsInstagram[i].id+'?fields=media_url,permalink&access_token=' + access_token)
         newImages.push({imageUrl: res.data.media_url, link: res.data.permalink})
       }
-
-      console.log(newImages);
       setImages(newImages)
     }
   }
@@ -122,7 +150,7 @@ const Home = () => {
 
   const getMore = () => {
     setOffset(offset + 7)
-    var newQuery = `*[_type == "programs"] {
+    var newQuery = `*[_type == "programs" && date > "${date.getFullYear()}-${nowMonth}-${nowDay}"] {
       date,
       title,
       content,
@@ -135,6 +163,7 @@ const Home = () => {
       .catch(err => console.log(err));
   }
 
+
   if (program.length && globalInfo.length && top.length) {
     return (
       <Page id="homepage" description={globalInfo[0].description} title={globalInfo[0].title}>
@@ -142,7 +171,7 @@ const Home = () => {
         <section className="section_top" id="link_to_1">
           <div className="uk-container-expand">
             <div className="uk-grid uk-grid-collapse uk-child-width-1-1 uk-child-width-1-2@m">
-              <div><img src={urlFor(top[0].image).ignoreImageParams()} title={top[0].image.attribution} alt={top[0].image.attribution} /></div>
+              <div><img src={urlFor(top[0].image).ignoreImageParams()} title={top[0].image.attribution} alt={top[0].title} /></div>
               <div>
                 <div className="content_wrap">
                   <h1 className="accent_head">{top[0].title}</h1>
@@ -157,27 +186,29 @@ const Home = () => {
         <section className="program" id="link_to_2">
           <div className="uk-container">
             <h2 className="accent_head">{globalInfo[0].titleProgram}</h2>
-            <ul uk-accordion="">
-              {program.map((item, index) =>
-                <li key={index} className="accordion-item">
-                  <a className="uk-accordion-title" href="#">
-                    <div className="program-date">
-                      <span>{formDate(item.date)[1]}</span>
-                      <span>{formDate(item.date)[0]}</span>
+            {/*<AnimateHeight height={height}>*/}
+              <ul uk-accordion="" style={{height: height}}>
+                {program.map((item, index) =>
+                  <li key={index} className="accordion-item" onClick={e => setHeight('auto')}>
+                    <a className="uk-accordion-title" href="#">
+                      <div className="program-date">
+                        <span>{formDate(item.date)[1]}</span>
+                        <span>{formDate(item.date)[0]}</span>
+                      </div>
+                      <h4 className="program-title">{item.title}</h4>
+                    </a>
+                    <div className="uk-accordion-content">
+                      <div></div>
+                      <div>
+                        <BlockContent blocks={item.content} serializers={serializers} />
+                        {item.links.link1 && <span><a href={item.links.link1} target="_blank" rel="noopener">{item.links.link1}</a><br/></span>}
+                        {item.links.link2 && <span><a href={item.links.link2} target="_blank" rel="noopener">{item.links.link2}</a><br/></span>}
+                        {item.links.link3 && <span><a href={item.links.link3} target="_blank" rel="noopener">{item.links.link3}</a><br/></span>}
+                      </div>
                     </div>
-                    <h4 className="program-title">{item.title}</h4>
-                  </a>
-                  <div className="uk-accordion-content">
-                    <div></div>
-                    <div>
-                      <BlockContent blocks={item.content} serializers={serializers} />
-                      {item.links.link1 && <span><a href={item.links.link1} target="_blank">{item.links.link1}</a><br/></span>}
-                      {item.links.link2 && <span><a href={item.links.link2} target="_blank">{item.links.link2}</a><br/></span>}
-                      {item.links.link3 && <span><a href={item.links.link3} target="_blank">{item.links.link3}</a><br/></span>}
-                    </div>
-                  </div>
-                </li>)}
-            </ul>
+                  </li>)}
+                </ul>
+              {/*</AnimateHeight>*/}
             <button className="button-more" onClick={() => getMore()}>další akce</button>
           </div>
         </section>
@@ -188,7 +219,7 @@ const Home = () => {
           <div className="uk-container">
             <div className="uk-grid uk-grid-small uk-child-width-1-2 uk-child-width-1-3@s" uk-grid="">
               {images.slice(0, 6).map((item, index) => <div key={index}>
-                <a href={item.link} target="_blank" className="instagram-wrap-item">
+                <a href={item.link} target="_blank" rel="noopener" className="instagram-wrap-item">
                   <span className="instagram-icon"></span>
                   <img src={item.imageUrl} alt="instagram" />
                 </a>
