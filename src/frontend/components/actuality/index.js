@@ -52,12 +52,12 @@ const Actuality = () => {
                       <BlockContent blocks={item.body} serializers={serializers} />
                     </div>
                  : <div className="content_img">
-                    <img src={urlFor(item.mainImage).width(665).url()} title={item.mainImage.attribution} alt={item.mainImage.attribution} />
+                    <img src={urlFor(item.mainImage).width(665).url()} title={item.mainImage.attribution} alt={item.title} />
                   </div>}
               </div>
               <div>
                 {index % 2
-                  ? <div className="content_img"><img src={urlFor(item.mainImage).ignoreImageParams()} title={item.mainImage.attribution} alt={item.mainImage.attribution} /></div>
+                  ? <div className="content_img"><img src={urlFor(item.mainImage).ignoreImageParams()} title={item.mainImage.attribution} alt={item.title} /></div>
                   : <div className="content_wrap">
                       <h3 className="accent_head">{item.title}</h3>
                       <BlockContent blocks={item.body} serializers={serializers} />
