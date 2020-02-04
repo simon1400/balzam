@@ -1,7 +1,8 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import Page from "../../components/page";
 import Actuality from "../../components/actuality";
-import AnimateHeight from 'react-animate-height';
+// import AnimateHeight from 'react-animate-height';
+import FlipMove from 'react-flip-move';
 import BlockContent from "@sanity/block-content-to-react";
 import sanityClient from "../../../lib/sanity.js";
 import imageUrlBuilder from "@sanity/image-url";
@@ -95,7 +96,7 @@ const Home = () => {
   const [offset, setOffset] = useState(7)
   const [idsInstagram, setIdsInstagram] = useState([])
   const [images, setImages] = useState([])
-  const [height, setHeight] = useState(0)
+  const [height, setHeight] = useState('auto')
 
   useEffect(() => {
     sanityClient
@@ -118,7 +119,6 @@ const Home = () => {
   }, [])
 
   useEffect(() => {
-    // console.log(program.length);
     calculateHeight()
   })
 
@@ -148,6 +148,8 @@ const Home = () => {
   }
 
 
+
+
   const getMore = () => {
     setOffset(offset + 7)
     var newQuery = `*[_type == "programs" && date > "${date.getFullYear()}-${nowMonth}-${nowDay}"] {
@@ -161,6 +163,11 @@ const Home = () => {
       .fetch(newQuery)
       .then(data => setProgram([...program, ...data]))
       .catch(err => console.log(err));
+  }
+
+
+  const openComponent = () => {
+    setHeight('auto')
   }
 
 
@@ -186,10 +193,9 @@ const Home = () => {
         <section className="program" id="link_to_2">
           <div className="uk-container">
             <h2 className="accent_head">{globalInfo[0].titleProgram}</h2>
-            {/*<AnimateHeight height={height}>*/}
-              <ul uk-accordion="" style={{height: height}}>
+              <FlipMove typeName="ul" uk-accordion="">
                 {program.map((item, index) =>
-                  <li key={index} className="accordion-item" onClick={e => setHeight('auto')}>
+                  <li key={index} className="accordion-item" onClick={e => openComponent()}>
                     <a className="uk-accordion-title" href="#">
                       <div className="program-date">
                         <span>{formDate(item.date)[1]}</span>
@@ -207,8 +213,7 @@ const Home = () => {
                       </div>
                     </div>
                   </li>)}
-                </ul>
-              {/*</AnimateHeight>*/}
+                </FlipMove>
             <button className="button-more" onClick={() => getMore()}>další akce</button>
           </div>
         </section>
