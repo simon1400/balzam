@@ -207,9 +207,9 @@ const Home = () => {
                       <div></div>
                       <div>
                         <BlockContent blocks={item.content} serializers={serializers} />
-                        {item.links.link1 && <span><a href={item.links.link1} target="_blank" rel="noopener">{item.links.link1}</a><br/></span>}
-                        {item.links.link2 && <span><a href={item.links.link2} target="_blank" rel="noopener">{item.links.link2}</a><br/></span>}
-                        {item.links.link3 && <span><a href={item.links.link3} target="_blank" rel="noopener">{item.links.link3}</a><br/></span>}
+                        {item?.links?.link1 && <span><a href={item.links.link1} target="_blank" rel="noopener">{item.links.link1}</a><br/></span>}
+                        {item?.links?.link2 && <span><a href={item.links.link2} target="_blank" rel="noopener">{item.links.link2}</a><br/></span>}
+                        {item?.links?.link3 && <span><a href={item.links.link3} target="_blank" rel="noopener">{item.links.link3}</a><br/></span>}
                       </div>
                     </div>
                   </li>)}
