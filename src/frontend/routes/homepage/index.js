@@ -177,10 +177,10 @@ const Home = () => {
 
         <section className="section_top" id="link_to_1">
           <div className="uk-container-expand">
-            <div className="uk-grid uk-grid-collapse uk-child-width-1-1 uk-child-width-1-2@m">
-              <div><img src={urlFor(top[0].image).ignoreImageParams()} title={top[0].image.attribution} alt={top[0].title} /></div>
+            <div className="uk-grid uk-grid-collapse uk-child-width-1-1 uk-child-width-1-2@m" uk-scrollspy="target: > div; cls: uk-animation-fade; delay: 500">
+              <div uk-scrollspy-class="uk-animation-slide-left"><img src={urlFor(top[0].image).ignoreImageParams()} title={top[0].image.attribution} alt={top[0].title} loading="lazy" /></div>
               <div>
-                <div className="content_wrap">
+                <div className="content_wrap" uk-scrollspy-class="uk-animation-slide-right">
                   <h1 className="accent_head">{top[0].title}</h1>
                   <BlockContent blocks={top[0].content} serializers={serializers} />
                 </div>
@@ -193,7 +193,7 @@ const Home = () => {
         <section className="program" id="link_to_2">
           <div className="uk-container">
             <h2 className="accent_head">{globalInfo[0].titleProgram}</h2>
-              <FlipMove typeName="ul" uk-accordion="">
+              <FlipMove typeName="ul" uk-accordion="" uk-scrollspy="target: > li; cls: uk-animation-fade; delay: 500">
                 {program.map((item, index) =>
                   <li key={index} className="accordion-item" onClick={e => openComponent()}>
                     <a className="uk-accordion-title" href="#">
@@ -214,7 +214,7 @@ const Home = () => {
                     </div>
                   </li>)}
                 </FlipMove>
-            <button className="button-more" onClick={() => getMore()}>další akce</button>
+            <button className="button-more" onClick={() => getMore()} uk-scrollspy="cls: uk-animation-fade; delay: 3000">další akce</button>
           </div>
         </section>
 

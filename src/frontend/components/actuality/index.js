@@ -44,7 +44,7 @@ const Actuality = () => {
       <section id="link_to_3" className="section_4">
       <div className="uk-container">
         {actuality.map((item, index) =>
-            <div className="uk-grid uk-grid-collapse uk-child-width-1-1 uk-child-width-1-2@s" key={index} >
+            <div className="uk-grid uk-grid-collapse uk-child-width-1-1 uk-child-width-1-2@s" key={index} uk-scrollspy="target: > div; cls: uk-animation-fade; delay: 500" >
               <div>
                 {index % 2
                   ? <div className="content_wrap">

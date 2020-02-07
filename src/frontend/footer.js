@@ -95,7 +95,7 @@ export default class Footer extends React.Component {
             </div>
           </div>
           <div className="copyright">
-            <p><span>Made in Brno by </span><a href="/"><img src={hardart} alt="Hardart studio" /></a></p>
+            <p><span>Made in Brno by </span><a href="mailto:danielkokes@gmail.com?subject=Callback od Balzamcafe"><img src={hardart} alt="Hardart studio" /></a></p>
           </div>
         </footer>
       );
