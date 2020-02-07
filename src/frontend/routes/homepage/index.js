@@ -178,9 +178,9 @@ const Home = () => {
         <section className="section_top" id="link_to_1">
           <div className="uk-container-expand">
             <div className="uk-grid uk-grid-collapse uk-child-width-1-1 uk-child-width-1-2@m" uk-scrollspy="target: > div; cls: uk-animation-fade; delay: 500">
-              <div uk-scrollspy-class="uk-animation-slide-left"><img src={urlFor(top[0].image).ignoreImageParams()} title={top[0].image.attribution} alt={top[0].title} loading="lazy" /></div>
+              <div><img src={urlFor(top[0].image).ignoreImageParams()} title={top[0].image.attribution} alt={top[0].title} loading="lazy" /></div>
               <div>
-                <div className="content_wrap" uk-scrollspy-class="uk-animation-slide-right">
+                <div className="content_wrap">
                   <h1 className="accent_head">{top[0].title}</h1>
                   <BlockContent blocks={top[0].content} serializers={serializers} />
                 </div>
@@ -193,35 +193,35 @@ const Home = () => {
         <section className="program" id="link_to_2">
           <div className="uk-container">
             <h2 className="accent_head">{globalInfo[0].titleProgram}</h2>
-              <FlipMove typeName="ul" uk-accordion="" uk-scrollspy="target: > li; cls: uk-animation-fade; delay: 500">
-                {program.map((item, index) =>
-                  <li key={index} className="accordion-item" onClick={e => openComponent()}>
-                    <a className="uk-accordion-title" href="#">
-                      <div className="program-date">
-                        <span>{formDate(item.date)[1]}</span>
-                        <span>{formDate(item.date)[0]}</span>
-                      </div>
-                      <h4 className="program-title">{item.title}</h4>
-                    </a>
-                    <div className="uk-accordion-content">
-                      <div></div>
-                      <div>
-                        <BlockContent blocks={item.content} serializers={serializers} />
-                        {item?.links?.link1 && <span><a href={item.links.link1} target="_blank" rel="noopener">{item.links.link1}</a><br/></span>}
-                        {item?.links?.link2 && <span><a href={item.links.link2} target="_blank" rel="noopener">{item.links.link2}</a><br/></span>}
-                        {item?.links?.link3 && <span><a href={item.links.link3} target="_blank" rel="noopener">{item.links.link3}</a><br/></span>}
-                      </div>
+            <FlipMove typeName="ul" uk-accordion="" uk-scrollspy="target: > li; cls: uk-animation-fade; delay: 500">
+              {program.map((item, index) =>
+                <li key={index} className="accordion-item" onClick={e => openComponent()}>
+                  <a className="uk-accordion-title" href="#">
+                    <div className="program-date">
+                      <span>{formDate(item.date)[1]}</span>
+                      <span>{formDate(item.date)[0]}</span>
                     </div>
-                  </li>)}
-                </FlipMove>
-            <button className="button-more" onClick={() => getMore()} uk-scrollspy="cls: uk-animation-fade; delay: 3000">další akce</button>
+                    <h4 className="program-title">{item.title}</h4>
+                  </a>
+                  <div className="uk-accordion-content">
+                    <div></div>
+                    <div>
+                      <BlockContent blocks={item.content} serializers={serializers} />
+                      {item?.links?.link1 && <span><a href={item.links.link1} target="_blank" rel="noopener">{item.links.link1}</a><br/></span>}
+                      {item?.links?.link2 && <span><a href={item.links.link2} target="_blank" rel="noopener">{item.links.link2}</a><br/></span>}
+                      {item?.links?.link3 && <span><a href={item.links.link3} target="_blank" rel="noopener">{item.links.link3}</a><br/></span>}
+                    </div>
+                  </div>
+                </li>)}
+              </FlipMove>
+            <button className="button-more" onClick={() => getMore()} uk-scrollspy="cls: uk-animation-fade; delay: 2000">další akce</button>
           </div>
         </section>
 
         <Actuality />
 
-        {images.length && <section className="instagram" id="link_to_4">
-          <div className="uk-container">
+        <section className="instagram" id="link_to_4">
+          {images.length && <div className="uk-container">
             <div className="uk-grid uk-grid-small uk-child-width-1-2 uk-child-width-1-3@s" uk-grid="">
               {images.slice(0, 6).map((item, index) => <div key={index}>
                 <a href={item.link} target="_blank" rel="noopener" className="instagram-wrap-item">
@@ -230,8 +230,8 @@ const Home = () => {
                 </a>
               </div>)}
             </div>
-          </div>
-        </section>}
+          </div>}
+        </section>
       </Page>
     );
   }
