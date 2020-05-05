@@ -114,6 +114,7 @@ const Home = () => {
 
     axios.get('https://graph.instagram.com/17841407200262017?fields=media&access_token=' + access_token)
       .then(res => {
+        console.log(res.data);
         setIdsInstagram([...res.data.media.data])
       })
   }, [])
@@ -170,8 +171,10 @@ const Home = () => {
     setHeight('auto')
   }
 
+  console.log(program);
 
-  if (program.length && globalInfo.length && top.length) {
+
+  if (globalInfo.length && top.length) {
     return (
       <Page id="homepage" description={globalInfo[0].description} title={globalInfo[0].title}>
 
@@ -190,7 +193,7 @@ const Home = () => {
         </section>
 
 
-        <section className="program" id="link_to_2">
+        {program.length && <section className="program" id="link_to_2">
           <div className="uk-container">
             <h2 className="accent_head">{globalInfo[0].titleProgram}</h2>
             <FlipMove typeName="ul" uk-accordion="" uk-scrollspy="target: > li; cls: uk-animation-fade; delay: 500">
@@ -216,7 +219,7 @@ const Home = () => {
               </FlipMove>
             <button className="button-more" onClick={() => getMore()} uk-scrollspy="cls: uk-animation-fade; delay: 2000">další akce</button>
           </div>
-        </section>
+        </section>}
 
         <Actuality />
 
