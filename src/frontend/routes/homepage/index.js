@@ -8,7 +8,7 @@ import sanityClient from "../../../lib/sanity.js";
 import imageUrlBuilder from "@sanity/image-url";
 
 import axios from 'axios'
-const access_token = 'IGQVJWMFgwNWVTZA21mT1J4X3Rxa0VBNG5xX2tKM2lILTh4d25oOEJYdmJpb09OR1M5RUpYamk1OUpKeHppVFhwSUNFS25XdDYwV1p0UTNJQVZADNzhuemh6X2xpZA1k1eXNHX1YzckZAR'
+const access_token = 'IGQVJVLTVaLTRpaE1NU1NZAMi1ncFNka01QVktuX2xKUnEwdlR6dG1EX0pibVJBX2J3TEJpM0dFMWY5SHU3NjhEd2ZAFLTF5TFFnRVlhb0tKdXNOU1pNdTZASM0swV2JKSThNanpmNFJXVmlHbHk1TkZAqNgZDZD'
 
 const imageBuilder = imageUrlBuilder(sanityClient);
 const urlFor = source => imageBuilder.image(source)
